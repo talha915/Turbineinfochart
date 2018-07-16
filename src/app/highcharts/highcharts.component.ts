@@ -8,10 +8,10 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./highcharts.component.css']
 })
 export class HighchartsComponent implements OnInit {
-  options: object;
   public Data = [];
   public res;
   public Datas = [] ;
+  public Datas1 = [] ;
   subscription: Subscription;
   message: any;
   myData: any = [];
@@ -19,118 +19,84 @@ export class HighchartsComponent implements OnInit {
   element_id;
   element_price;
   element_type;
-  constructor(private service_data: DataService) { 
-    this.options = {
-      chart: {
-        type: 'line'
-      },
+  element_power;
+  element_wind;
+  options = {
+    chart: {
+      type: 'line'
+    },
+    title: {
+      text: 'Turbine Graph'
+    },
+    subtitle: {
+      text: 'Graph'
+    },
+
+    yAxis: {
       title: {
-        text: 'simple chart'
-      },
-      subtitle: {
-        text: 'Graph'
-      },
-    
-      yAxis: {
-        title: {
-          text: 'Number of Employees'
-        }
-      },
-      plotOptions: {
-        series: {
-          pointStart: 2010
-        }
-      },
-      series:[{
-        name: 'MyDar',
-        data: this.Datas
-      }]
-        // type: 'area',
-        // name: 'Turbine Data',
-        // data: data
+        text: 'Power'
+      }
+    },
+    plotOptions: {
+     
+    },
+    series: [{
+      name: 'Graph Name',
+      data: [],
+      "turboThreshold": 5000,
+    }]
   }
+  constructor(private service_data: DataService) { 
+
+    // Static Data
+    /* const response = this.service_data.getmyData();
+     response.forEach((element)=>{
+       console.log("Element>D", element);
+       this.element_id = element.id;
+      this.element_price = element.price;
+
+       console.log("Id is: ", this.element_id);
+       console.log("Price is: ", this.element_price);
+
+       var mydata = {
+         x: this.element_id,
+         y: this.element_price
+       }
+      
+       this.Datas.push(mydata);
+       console.log("MY DATAS>>>", this.Datas);
+     })
+     let o=Object.assign({},this.options);
+     o.series[]=this.Datas;
+     this.options=o;*/
   }
 
   
     
   
   ngOnInit() {
-    let self =this;
+    
+    //Data from url
+     this.service_data.getmyData();
+    this.service_data.getData()
+    .subscribe((response: any)=>{
+     console.log("Response", response);
+       response.forEach((element)=>{
+         this.element_power = element.power;
+         this.element_wind = element.wind;
 
-    this.service_data.getmyData();
-    console.log("this service", this.service_data.getmyData())
-    const dati = this.service_data.getmyData();
-    console.log("Dati", dati);
-    dati.forEach(function(element){
-      console.log("elements", element);
-      self.element_id = element.id;
-      self.element_price = element.price;
-      self.element_type =element.area;
-      console.log("Id is: ", self.element_id);
-      console.log("Price is: ", self.element_price);
-      
-      var mydata = {
-        x: self.element_id,
-        y: self.element_price,
-        type: self.element_type
-      }
-      self.Datas.push(mydata);
-      console.log("MY DATAS>>>", self.Datas);
+         var mydata = {
+           x: element.power,
+           y: element.wind
+         }
+         this.Datas1.push(mydata);
 
-      self.options.series[{
-        name: 'Name',
-        data: self.Datas
-      }]
-    })
-   // this.service_data.getData()
-    //  .subscribe(function (res) {
-        //self.drawChart(res.turbine_info)
-        //this.Data = res.turbine_info;
-        //console.log("Response", res.turbine_info[0].latitude, res.turbine_info[0].longitude);
-        
-    //    console.log("Response", res);
+       })
 
-        // this.Data.forEach(function(element){
-        //   console.log("elements", element);
-        //   element.x = element.latitude,
-        //   console.log("elements lat", element.x);
-        //   element.y = element.longitude
-        //   console.log("elements long", element.y);
-        //  var mydata={
-        //    x: element.x,
-        //    y: element.y
-        //  }
-        //  console.log("MyData", mydata);
-        //  self.Datas.push(mydata)
-        //  console.log("Self.Datas", self.Datas)
-        // })
-        // console.log("Self Datas", self.Datas);
-        // this.options.series = [{
-        //   name: 'TUR',
-        //   data: self.Datas
-        // }];
-
-
-        // this.options.series[{
-        //   name: 'Graph',
-        //   data: data
-        // });
-        // this.Data = res.movies;
-        // console.log("Thi.Data", this.Data)
-        
-        // this.Data.forEach(function(element){
-        //   var newData = {
-        //     id: element.id,
-        //     releaseYear: element.releaseYear
-        //   };
-        //   self.drawChart([newData])
-        // })
-        // if(res.id !==null && res.releaseYear!==null){
-        //   console.log("res", res.movies[0]);
-        // }
-     // })
-      
-     
+       let o=Object.assign({},this.options);
+       o.series[0].data=this.Datas1
+      this.options=o;
+     }) 
   }
 
 }

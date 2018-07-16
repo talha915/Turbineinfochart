@@ -25,6 +25,12 @@ export interface IData {
     image: string
 }
 
+export interface IDatas{
+    power: number,
+    wind: number,
+    cluster: string
+}
+
 // export interface IData{
 //     id: number,
 //     title: string,
