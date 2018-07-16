@@ -47,32 +47,16 @@ export class HighchartsComponent implements OnInit {
     }]
   }
   constructor(private service_data: DataService) { 
-
-    // Static Data
-    /* const response = this.service_data.getmyData();
-     response.forEach((element)=>{
-       console.log("Element>D", element);
-       this.element_id = element.id;
-      this.element_price = element.price;
-
-       console.log("Id is: ", this.element_id);
-       console.log("Price is: ", this.element_price);
-
-       var mydata = {
-         x: this.element_id,
-         y: this.element_price
-       }
-      
-       this.Datas.push(mydata);
-       console.log("MY DATAS>>>", this.Datas);
-     })
-     let o=Object.assign({},this.options);
-     o.series[]=this.Datas;
-     this.options=o;*/
   }
 
   
-    
+  
+  sortByOrder(a,b){    
+    a = a.x;    
+    b = b.x;
+     
+   return (a < b) ? -1 : (a > b) ? 1 : 0;  
+  }
   
   ngOnInit() {
     
@@ -90,9 +74,9 @@ export class HighchartsComponent implements OnInit {
            y: element.wind
          }
          this.Datas1.push(mydata);
-
+         console.log("Datas: ", this.Datas1);
        })
-
+       this.Datas1.sort(this.sortByOrder);
        let o=Object.assign({},this.options);
        o.series[0].data=this.Datas1
       this.options=o;
