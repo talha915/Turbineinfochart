@@ -8,66 +8,53 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./highcharts.component.css']
 })
 export class HighchartsComponent implements OnInit {
-  public Data = [];
-  public res;
-  public Datas = [] ;
-  public Datas1 = [] ;
+  public Datas1 = [];
   subscription: Subscription;
   message: any;
   myData: any = [];
-  turbine_info;
-  element_id;
-  element_price;
-  element_type;
   element_power;
   element_wind;
-  options = {
+  public options = {
     chart: {
       type: 'line'
     },
     title: {
       text: 'Turbine Graph'
     },
-    subtitle: {
-      text: 'Graph'
+    xAxis:{
+      title: {
+        text: 'Wind'
+      }
     },
-
     yAxis: {
       title: {
         text: 'Power'
       }
     },
-    plotOptions: {
-     
-    },
     series: [{
-      name: 'Graph Name',
+      name: 'Turbine Information',
       data: [],
-      "turboThreshold": 5000,
+      "turboThreshold": 15000,
     }]
   }
+  
   constructor(private service_data: DataService) { 
   }
 
-  
-  
   sortByOrder(a,b){    
     a = a.x;    
-    b = b.x;
-     
-   return (a < b) ? -1 : (a > b) ? 1 : 0;  
+    b = b.x; 
+    return (a < b) ? -1 : (a > b) ? 1 : 0;  
   }
   
   ngOnInit() {
     
     //Data from url
-     this.service_data.getmyData();
+    this.service_data.getmyData();
     this.service_data.getData()
     .subscribe((response: any)=>{
      console.log("Response", response);
        response.forEach((element)=>{
-         this.element_power = element.power;
-         this.element_wind = element.wind;
 
          var mydata = {
            x: element.power,
@@ -79,7 +66,7 @@ export class HighchartsComponent implements OnInit {
        this.Datas1.sort(this.sortByOrder);
        let o=Object.assign({},this.options);
        o.series[0].data=this.Datas1
-      this.options=o;
+       this.options=o;
      }) 
   }
 

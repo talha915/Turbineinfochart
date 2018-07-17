@@ -1,0 +1,15 @@
+.formContainer {
+    border: 1px solid grey;
+    margin-top: 50px;
+    width: 680px;
+    margin-left: 190px;
+}
+
+.formPosition{
+    margin-left: 150px;
+}
+
+a{
+    margin-left: 550px;
+    padding-top: 10px;
+}
