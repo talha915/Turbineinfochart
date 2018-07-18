@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../Service/data.service';
 import { IData } from '../Service/data';
 import { Subscription } from 'rxjs';
+import { UserService } from '../user.service';
 @Component({
   selector: 'app-highcharts',
   templateUrl: './highcharts.component.html',
@@ -38,7 +39,7 @@ export class HighchartsComponent implements OnInit {
     }]
   }
   
-  constructor(private service_data: DataService) { 
+  constructor(private service_data: DataService, private user: UserService) { 
   }
 
   sortByOrder(a,b){    

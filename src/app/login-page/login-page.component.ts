@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { HighchartsComponent } from '../highcharts/highcharts.component';
 import { Router } from '@angular/router';
+import { UserService } from '../user.service';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginPageComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private user: UserService) { }
   public email;
   public password;
   public setemail = "talhazafar@hotmail.co.uk";
@@ -23,6 +24,7 @@ export class LoginPageComponent implements OnInit {
     if(this.email === this.setemail && this.password === this.setpassword) {
       this.logged = !this.logged;
       if(this.logged == true){
+        this.user.setUserLoggedIn();
         this.router.navigateByUrl("/Highcharts");
         console.log("logged in", this.logged);
       }

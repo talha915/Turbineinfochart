@@ -9,7 +9,8 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { SignupPageComponent } from './signup-page/signup-page.component';
-
+import { UserService } from './user.service';
+import { AuthguardGuard } from './authguard.guard';
 declare var require: any
 @NgModule({
   declarations: [
@@ -34,11 +35,12 @@ declare var require: any
       },
       {
         path: 'Highcharts',
-        component: HighchartsComponent
+        component: HighchartsComponent,
+        canActivate: [AuthguardGuard]
       }
     ])
   ],
-  providers: [],
+  providers: [UserService, AuthguardGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
